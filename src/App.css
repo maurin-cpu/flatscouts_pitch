@@ -1,0 +1,1463 @@
+/* ===========================================
+   Flatscouts Pitch Deck - 6 Slides Version
+   Premium Design with Animations
+   =========================================== */
+
+:root {
+  --primary: #123c36;
+  --primary-light: #1a5148;
+  --secondary: #88a38c;
+  --accent: #e3c9a5;
+  --gold: #d4a853;
+  --white: #ffffff;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --text-muted: #9ca3af;
+  --bg: #F6EDE3;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --radius: 24px;
+  --radius-sm: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ===========================================
+   Layout Frame
+   =========================================== */
+.presentation {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.slides-viewport {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  padding-bottom: 90px;
+  height: 100%;
+}
+
+.slide {
+  width: 100%;
+  height: 100%;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Präsentationsrahmen für alle Slides außer Slide 1 */
+.slide-frame {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius);
+  padding: clamp(20px, 3vw, 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* ===========================================
+   Shared Components
+   =========================================== */
+.slide-header {
+  text-align: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.overline {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--secondary);
+  margin-bottom: 8px;
+}
+
+.slide-header h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  color: var(--primary);
+  line-height: 1.2;
+}
+
+.subline {
+  font-size: 18px;
+  color: var(--text-light);
+  margin-top: 12px;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glow-1 {
+  width: 50vw;
+  height: 50vh;
+  background: var(--secondary);
+  opacity: 0.1;
+  top: -20%;
+  right: -10%;
+}
+
+.glow-2 {
+  width: 40vw;
+  height: 40vh;
+  background: var(--accent);
+  opacity: 0.15;
+  bottom: -10%;
+  left: -10%;
+}
+
+.glow-3 {
+  width: 60vw;
+  height: 60vh;
+  background: var(--gold);
+  opacity: 0.1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ===========================================
+   Slide 1: Title Slide
+   =========================================== */
+.slide-title {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.title-content {
+  z-index: 2;
+}
+
+.title-logo {
+  width: clamp(240px, 35vw, 400px);
+  margin-bottom: 40px;
+}
+
+.title-claim {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.2;
+  margin-bottom: 48px;
+}
+
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 56px;
+  background: var(--primary);
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  box-shadow: 0 20px 40px rgba(18, 60, 54, 0.25);
+  transition: all 0.3s ease;
+}
+
+.cta-primary:hover {
+  transform: translateY(-4px) scale(1.02);
+  background: var(--primary-light);
+}
+
+.cta-primary svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* ===========================================
+   Slide 2: Transformation (Vorher → Nachher)
+   =========================================== */
+.slide-transformation {
+  align-items: center;
+}
+
+.slide-overview-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+.transformation-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 32px;
+  align-items: start;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Shared card base */
+.transform-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.transform-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+.transform-card-header {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 20px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.transform-card h3 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+/* Before card – muted/gray/red tones */
+.before-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+.before-card .transform-card-header {
+  background: #f3f4f6;
+  color: var(--text-muted);
+}
+
+.before-card h3 {
+  color: var(--text-light);
+}
+
+.transform-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transform-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.before-icon {
+  background: #f3f4f6;
+  color: var(--danger);
+  border: 2px solid rgba(239, 68, 68, 0.2);
+}
+
+/* After card – vibrant/green/primary */
+.after-card {
+  background: white;
+  border: 2px solid var(--success);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.1);
+}
+
+.after-card .transform-card-header {
+  background: var(--success);
+  color: white;
+}
+
+.after-card h3 {
+  color: var(--primary);
+}
+
+.after-icon {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  border: none;
+}
+
+/* Tags / bullets */
+.transform-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.tag {
+  display: block;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tag-muted {
+  background: #f3f4f6;
+  color: var(--text-muted);
+}
+
+.tag-active {
+  background: rgba(16, 185, 129, 0.08);
+  color: var(--primary);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  font-weight: 600;
+}
+
+/* Center arrow */
+.transform-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.arrow-bounce svg {
+  width: 40px;
+  height: 40px;
+  color: var(--secondary);
+}
+
+.arrow-zap {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8px 24px rgba(212, 168, 83, 0.35);
+}
+
+.arrow-zap svg {
+  width: 26px;
+  height: 26px;
+}
+
+.arrow-label {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+
+/* ===========================================
+   Slide 3: Animierter Flow
+   =========================================== */
+.slide-flow {
+  align-items: center;
+}
+
+/* Setup Bar – volle Breite oben */
+.flow-setup-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: white;
+  border: 2px dashed var(--secondary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-sm);
+  padding: 14px 28px;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+}
+
+.setup-bar-badge {
+  position: absolute;
+  top: -10px;
+  left: 24px;
+  background: var(--secondary);
+  color: white;
+  padding: 3px 14px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.setup-bar-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary);
+  flex-shrink: 0;
+}
+
+.setup-bar-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.setup-bar-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.setup-bar-text strong {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 15px;
+  color: var(--secondary);
+}
+
+.setup-bar-text span {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Connector between setup and flow */
+.flow-connector-down {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0;
+}
+
+/* Main Flow Container – Pro Mandat */
+.flow-main {
+  position: relative;
+  background: white;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 44px 40px 32px;
+  box-shadow: 0 10px 40px rgba(18, 60, 54, 0.08);
+  width: 100%;
+}
+
+.flow-main-badge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: white;
+  padding: 6px 20px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.flow-main-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── Flow Track: alles absolut positioniert, gleiche %-Basis ── */
+.flow-track {
+  position: relative;
+  height: 180px;
+}
+
+/* Gradient-Linie – DURCH die Kreismitte (30px node-top + 35px halber Kreis = 65px) */
+.flow-line {
+  position: absolute;
+  top: 63px; /* 65px Kreismitte - 2.5px halbe Linienhöhe ≈ 63px */
+  left: 10%;
+  width: 80%;
+  height: 5px;
+  background: linear-gradient(90deg, #c8d8ca 0%, var(--secondary) 35%, var(--primary) 70%, var(--primary) 100%);
+  border-radius: 3px;
+  z-index: 5; /* HINTER den Kreisen */
+}
+
+/* Subtiler Track hinter der Linie */
+.flow-line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  right: -6px;
+  height: 18px;
+  transform: translateY(-50%);
+  background: rgba(136, 163, 140, 0.06);
+  border-radius: 9px;
+}
+
+/* Glow auf der Linie */
+.flow-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 12px rgba(18, 60, 54, 0.15);
+  border-radius: 3px;
+}
+
+/* Wandernder Punkt – goldfarben, auf Kreismitte, HINTER Kreisen (tritt ein) */
+.flow-dot {
+  position: absolute;
+  top: 55px; /* 65px Kreismitte - 10px halbe Punkthöhe = 55px */
+  width: 20px;
+  height: 20px;
+  margin-left: -10px; /* horizontale Zentrierung statt transform (framer-motion überschreibt transform!) */
+  background: radial-gradient(circle, #f0d89a 0%, var(--accent) 60%, #d4a853 100%);
+  border: 2px solid white;
+  border-radius: 50%;
+  z-index: 8; /* hinter den Kreisen (z-index 20), aber vor der Linie (z-index 5) */
+  box-shadow: 0 0 20px rgba(227, 201, 165, 0.9), 0 2px 8px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+/* ── Nodes: absolute, left: X% identisch mit Punkt-Keyframes ── */
+.flow-node {
+  position: absolute;
+  top: 30px; /* Kreis (70px) → Mitte bei 65px, Linie durchläuft diese Mitte */
+  transform: translateX(-50%);
+  z-index: 10; /* über Linie (5) und Punkt (8) – Kreise verdecken die Linie */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.node-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 20; /* ÜBER Linie (5) und Punkt (8) – Punkt tritt in Kreis ein */
+  transform-origin: center;
+  border: 3px solid transparent;
+}
+
+.node-circle svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* Farbverlauf hell → dunkel pro Kreis (wird per inline style oder Klasse gesetzt) */
+/* Upload = weiss, helle Border */
+.node-step-0 {
+  background: #ffffff;
+  border-color: #c8d8ca;
+  color: var(--secondary);
+}
+
+/* KI = helles Grün */
+.node-step-1 {
+  background: #e0ece2;
+  border-color: var(--secondary);
+  color: var(--primary);
+}
+
+/* Kontrolle = mittleres Grün */
+.node-step-2 {
+  background: #a8c4ac;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Ablage = dunkelgrün */
+.node-step-3 {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 8px 24px rgba(18, 60, 54, 0.25);
+}
+
+/* Node Badge (für HITL) */
+.node-badge {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+  border: 1px solid var(--warning);
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.node-label {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 3px;
+  white-space: nowrap;
+}
+
+.node-sub {
+  font-size: 11px;
+  color: var(--text-light);
+  line-height: 1.3;
+  max-width: 140px;
+}
+
+/* ===========================================
+   Slide 4: ROI Comparison Table
+   =========================================== */
+.slide-roi {
+  align-items: center;
+}
+
+.roi-scenario {
+  margin-bottom: 32px;
+}
+
+.scenario-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 16px 28px;
+  border-radius: 100px;
+  font-size: 17px;
+  color: var(--text);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.scenario-badge svg {
+  width: 24px;
+  height: 24px;
+  color: var(--primary);
+}
+
+.scenario-badge strong {
+  color: var(--primary);
+}
+
+/* ROI Comparison Grid */
+.roi-comparison {
+  width: 100%;
+  overflow: hidden;
+}
+
+.roi-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 1fr;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.roi-row:last-child {
+  border-bottom: none;
+}
+
+.roi-cell {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Label Column */
+.roi-label {
+  background: var(--bg);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.roi-label svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+/* Header Row */
+.roi-header .roi-cell {
+  padding: 20px 28px;
+}
+
+.roi-column-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.roi-column-header.old {
+  color: var(--danger);
+}
+
+.roi-column-header.new {
+  color: var(--success);
+}
+
+.roi-column-header svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Old/New Columns */
+.roi-old {
+  background: rgba(239, 68, 68, 0.03);
+  border-left: 3px solid var(--danger);
+}
+
+.roi-new {
+  background: rgba(16, 185, 129, 0.03);
+  border-left: 3px solid var(--success);
+}
+
+.roi-cell p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+/* Value Boxes */
+.roi-value {
+  font-size: 28px;
+  font-weight: 800;
+  font-family: 'Ubuntu', sans-serif;
+  margin-bottom: 8px;
+}
+
+.roi-value.bad {
+  color: var(--danger);
+}
+
+.roi-value.good {
+  color: var(--success);
+}
+
+.roi-note {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+/* Result Row */
+.roi-result-row {
+  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.05));
+}
+
+.roi-result-row .roi-label {
+  background: var(--primary);
+  color: white;
+}
+
+.roi-result-row .roi-label svg {
+  color: var(--gold);
+}
+
+.roi-conclusion {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.roi-conclusion.bad {
+  color: var(--danger);
+}
+
+/* Savings Highlight */
+.roi-savings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.savings-number {
+  font-size: 56px;
+  font-weight: 900;
+  font-family: 'Ubuntu', sans-serif;
+  color: var(--success);
+  line-height: 1;
+  background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.savings-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--success);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* ===========================================
+   Slide 5: Agenten-Ökosystem (Hub & Orbit)
+   =========================================== */
+.slide-ecosystem {
+  align-items: center;
+}
+
+.ecosystem-container {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 1.2;
+  margin: 0 auto;
+}
+
+/* SVG Connection Lines */
+.ecosystem-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Central Hub */
+.ecosystem-hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+}
+
+.ecosystem-hub .agent-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  z-index: 11;
+}
+
+.hub-circle {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 16px 48px rgba(18, 60, 54, 0.35);
+  margin-bottom: 16px;
+}
+
+.hub-circle svg {
+  width: 52px;
+  height: 52px;
+}
+
+.hub-label {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  max-width: 180px;
+}
+
+.hub-sub {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+/* Satellite Agents */
+.ecosystem-agent {
+  position: absolute;
+  margin-top: -36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 5;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.agent-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.agent-circle svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Agent Status: LIVE */
+.agent-live .agent-circle {
+  background: var(--primary);
+  color: white;
+  border: 3px solid var(--accent);
+  box-shadow: 0 8px 24px rgba(18, 60, 54, 0.25);
+}
+
+.agent-live:hover .agent-circle {
+  transform: scale(1.15);
+  box-shadow: 0 12px 32px rgba(18, 60, 54, 0.35);
+}
+
+/* Agent Status: DEV */
+.agent-dev .agent-circle {
+  background: #e6e2d6;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.agent-dev:hover .agent-circle {
+  background: rgba(136, 163, 140, 0.3);
+  transform: scale(1.1);
+}
+
+/* Agent Status: VISION */
+.agent-vision .agent-circle {
+  background: #ebe6da;
+  color: var(--secondary);
+  border: 2px dashed var(--secondary);
+}
+
+.agent-vision:hover .agent-circle {
+  background: rgba(136, 163, 140, 0.2);
+  border-style: solid;
+  color: var(--primary);
+  transform: scale(1.1);
+}
+
+/* Agent Labels */
+.agent-label {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 4px;
+  max-width: 130px;
+}
+
+.agent-sub {
+  font-size: 11px;
+  color: var(--text-light);
+  max-width: 140px;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 0.3s ease;
+}
+
+.ecosystem-agent:hover .agent-sub {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Agent Badges */
+.agent-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.badge-live {
+  background: var(--success);
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.badge-dev {
+  background: var(--warning);
+  color: white;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.badge-vision {
+  background: #c4d1c7;
+  color: var(--secondary);
+  border: 1px solid rgba(136, 163, 140, 0.4);
+  box-shadow: none;
+}
+
+/* Legend */
+.ecosystem-legend {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-live .legend-dot {
+  background: var(--primary);
+  border: 2px solid var(--accent);
+}
+
+.legend-dev .legend-dot {
+  background: rgba(136, 163, 140, 0.3);
+  border: 2px solid var(--primary);
+}
+
+.legend-vision .legend-dot {
+  background: rgba(136, 163, 140, 0.1);
+  border: 2px dashed var(--secondary);
+}
+
+/* ===========================================
+   Slide 6: CTA Slide
+   =========================================== */
+.slide-cta {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.cta-content {
+  z-index: 2;
+  max-width: 700px;
+}
+
+.cta-icon {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32px;
+  color: white;
+}
+
+.cta-icon svg {
+  width: 48px;
+  height: 48px;
+}
+
+.cta-headline {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  color: var(--primary);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.cta-subtext {
+  font-size: 20px;
+  color: var(--text-light);
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 56px;
+  background: var(--primary);
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  box-shadow: 0 20px 40px rgba(18, 60, 54, 0.25);
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  background: var(--primary-light);
+}
+
+.cta-button svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* ===========================================
+   Navigation & Footer
+   =========================================== */
+.slide-nav {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 12px 32px;
+  border-radius: 100px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-dots {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-arrow {
+  width: 48px;
+  height: 48px;
+  background: var(--bg);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--primary);
+}
+
+.nav-arrow:hover:not(:disabled) {
+  background: var(--primary);
+  color: white;
+}
+
+.nav-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nav-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--secondary);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dot:hover {
+  border-color: var(--primary);
+}
+
+.dot.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  transform: scale(1.3);
+}
+
+.pres-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  font-size: 14px;
+  color: #999;
+  background: rgba(246, 237, 227, 0.95);
+}
+
+/* ===========================================
+   Responsive
+   =========================================== */
+@media (max-width: 1200px) {
+  .transformation-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 500px;
+  }
+
+  .transform-arrow {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .arrow-bounce svg {
+    transform: rotate(90deg);
+  }
+
+  .flow-main {
+    padding: 44px 20px 32px;
+  }
+
+  .flow-line,
+  .flow-dot {
+    display: none;
+  }
+
+  .flow-track {
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+  }
+
+  .flow-node {
+    position: static;
+    transform: none;
+    width: 40%;
+  }
+
+  .roi-row {
+    grid-template-columns: 140px 1fr 1fr;
+  }
+
+  /* Ecosystem responsive */
+  .ecosystem-container {
+    aspect-ratio: 1;
+  }
+
+  .ecosystem-hub {
+    margin-top: -50px;
+  }
+
+  .hub-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .hub-circle svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hub-label {
+    font-size: 16px;
+  }
+
+  .ecosystem-agent {
+    margin-top: -30px;
+  }
+
+  .agent-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .agent-circle svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .agent-label {
+    font-size: 12px;
+  }
+
+  .agent-sub {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .roi-row {
+    grid-template-columns: 1fr;
+  }
+
+  .roi-label {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .roi-old, .roi-new {
+    border-left: none;
+    border-top: 3px solid;
+  }
+
+  .roi-old {
+    border-top-color: var(--danger);
+  }
+
+  .roi-new {
+    border-top-color: var(--success);
+  }
+
+  /* Ecosystem mobile adjustments */
+  .ecosystem-lines {
+    opacity: 0.5;
+  }
+
+  .agent-badge {
+    font-size: 8px;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .slides-viewport {
+    padding: 20px;
+    padding-bottom: 100px;
+  }
+
+  .transform-card {
+    padding: 28px 20px;
+  }
+
+  .transform-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .transform-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .flow-node {
+    width: 45%;
+  }
+
+  .flow-setup-bar {
+    padding: 12px 20px;
+  }
+
+  .node-circle {
+    width: 56px;
+    height: 56px;
+  }
+
+  .node-circle svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .node-label {
+    font-size: 12px;
+  }
+
+  .node-sub {
+    font-size: 10px;
+  }
+
+  .node-badge {
+    font-size: 9px;
+  }
+
+  .savings-number {
+    font-size: 40px;
+  }
+
+  /* Ecosystem small screens */
+  .ecosystem-hub {
+    margin-top: -40px;
+  }
+
+  .hub-circle {
+    width: 80px;
+    height: 80px;
+  }
+
+  .hub-circle svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hub-label {
+    font-size: 14px;
+    max-width: 140px;
+  }
+
+  .ecosystem-agent {
+    margin-top: -25px;
+  }
+
+  .agent-circle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .agent-circle svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .agent-label {
+    font-size: 11px;
+    max-width: 100px;
+  }
+
+  .ecosystem-legend {
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    font-size: 11px;
+  }
+}
