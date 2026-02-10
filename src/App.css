@@ -507,53 +507,16 @@ body {
   height: 180px;
 }
 
-/* Gradient-Linie – DURCH die Kreismitte (30px node-top + 35px halber Kreis = 65px) */
-.flow-line {
+/* SVG-Linie mit Pfeilen – DURCH die Kreismitte */
+.flow-line-svg {
   position: absolute;
-  top: 63px; /* 65px Kreismitte - 2.5px halbe Linienhöhe ≈ 63px */
-  left: 10%;
-  width: 80%;
-  height: 5px;
-  background: linear-gradient(90deg, #c8d8ca 0%, var(--secondary) 35%, var(--primary) 70%, var(--primary) 100%);
-  border-radius: 3px;
+  top: 50px; /* Kreismitte bei ~65px, SVG Höhe 30px → 65 - 15 = 50 */
+  left: 0;
+  width: 100%;
+  height: 30px;
   z-index: 5; /* HINTER den Kreisen */
-}
-
-/* Subtiler Track hinter der Linie */
-.flow-line::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: -6px;
-  right: -6px;
-  height: 18px;
-  transform: translateY(-50%);
-  background: rgba(136, 163, 140, 0.06);
-  border-radius: 9px;
-}
-
-/* Glow auf der Linie */
-.flow-line::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  box-shadow: 0 0 12px rgba(18, 60, 54, 0.15);
-  border-radius: 3px;
-}
-
-/* Wandernder Punkt – goldfarben, auf Kreismitte, HINTER Kreisen (tritt ein) */
-.flow-dot {
-  position: absolute;
-  top: 55px; /* 65px Kreismitte - 10px halbe Punkthöhe = 55px */
-  width: 20px;
-  height: 20px;
-  margin-left: -10px; /* horizontale Zentrierung statt transform (framer-motion überschreibt transform!) */
-  background: radial-gradient(circle, #f0d89a 0%, var(--accent) 60%, #d4a853 100%);
-  border: 2px solid white;
-  border-radius: 50%;
-  z-index: 8; /* hinter den Kreisen (z-index 20), aber vor der Linie (z-index 5) */
-  box-shadow: 0 0 20px rgba(227, 201, 165, 0.9), 0 2px 8px rgba(0, 0, 0, 0.15);
-  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 2px 6px rgba(18, 60, 54, 0.12));
 }
 
 /* ── Nodes: absolute, left: X% identisch mit Punkt-Keyframes ── */
@@ -566,6 +529,7 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  cursor: pointer;
 }
 
 .node-circle {
@@ -618,20 +582,6 @@ body {
   box-shadow: 0 8px 24px rgba(18, 60, 54, 0.25);
 }
 
-/* Node Badge (für HITL) */
-.node-badge {
-  display: inline-block;
-  background: rgba(245, 158, 11, 0.1);
-  color: var(--warning);
-  border: 1px solid var(--warning);
-  padding: 2px 10px;
-  border-radius: 100px;
-  font-size: 10px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  white-space: nowrap;
-}
-
 .node-label {
   font-family: 'Ubuntu', sans-serif;
   font-size: 14px;
@@ -646,6 +596,155 @@ body {
   color: var(--text-light);
   line-height: 1.3;
   max-width: 140px;
+}
+
+/* ===========================================
+   Node Tooltip (Slide 3 Hover Detail Cards)
+   =========================================== */
+.node-tooltip {
+  position: absolute;
+  top: -12px;
+  width: 300px;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow:
+    0 20px 60px rgba(18, 60, 54, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  pointer-events: none;
+  border: 1px solid rgba(18, 60, 54, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.node-tooltip.tooltip-right {
+  left: calc(50% + 50px);
+}
+
+.node-tooltip.tooltip-left {
+  right: calc(50% + 50px);
+}
+
+/* Arrow indicator */
+.node-tooltip.tooltip-right::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: -8px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-left: 1px solid rgba(18, 60, 54, 0.08);
+  border-bottom: 1px solid rgba(18, 60, 54, 0.08);
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.node-tooltip.tooltip-left::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  right: -8px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-right: 1px solid rgba(18, 60, 54, 0.08);
+  border-top: 1px solid rgba(18, 60, 54, 0.08);
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.tooltip-icon-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tooltip-icon-dot svg {
+  width: 18px;
+  height: 18px;
+}
+
+.tooltip-dot-step-0 {
+  background: #f0f7f1;
+  color: var(--secondary);
+  border: 2px solid #c8d8ca;
+}
+
+.tooltip-dot-step-1 {
+  background: #e0ece2;
+  color: var(--primary);
+  border: 2px solid var(--secondary);
+}
+
+.tooltip-dot-step-2 {
+  background: #a8c4ac;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.tooltip-dot-step-3 {
+  background: var(--primary);
+  color: white;
+  border: 2px solid var(--primary);
+}
+
+.tooltip-title {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+.tooltip-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-light);
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.tooltip-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tooltip-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.tooltip-features li svg {
+  width: 16px;
+  height: 16px;
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+/* Ensure flow-node has proper z-index when hovered */
+.flow-node:hover {
+  z-index: 50;
 }
 
 /* ===========================================
@@ -1257,8 +1356,7 @@ body {
     padding: 44px 20px 32px;
   }
 
-  .flow-line,
-  .flow-dot {
+  .flow-line-svg {
     display: none;
   }
 
@@ -1278,6 +1376,33 @@ body {
 
   .roi-row {
     grid-template-columns: 140px 1fr 1fr;
+  }
+
+  /* Tooltip responsive: show below node on small screens */
+  .node-tooltip {
+    width: 260px;
+    top: auto;
+    bottom: -12px;
+    transform: translateY(100%);
+  }
+
+  .node-tooltip.tooltip-right,
+  .node-tooltip.tooltip-left {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(100%);
+  }
+
+  .node-tooltip.tooltip-right::before,
+  .node-tooltip.tooltip-left::before {
+    top: -8px;
+    left: 50%;
+    right: auto;
+    margin-left: -8px;
+    border: none;
+    border-left: 1px solid rgba(18, 60, 54, 0.08);
+    border-top: 1px solid rgba(18, 60, 54, 0.08);
+    transform: rotate(45deg);
   }
 
   /* Ecosystem responsive */

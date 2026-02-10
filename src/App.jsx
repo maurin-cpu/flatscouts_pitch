@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import './App.css'
 
 // Icons (Lucide-style SVGs)
@@ -69,11 +69,8 @@ const Icons = {
   ),
   BrainCircuit: () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M12 4.5a2.5 2.5 0 0 0-4.96-.46 2.5 2.5 0 0 0-1.98 3 2.5 2.5 0 0 0 .32 4.27 2.5 2.5 0 0 0 1.98 3A2.5 2.5 0 0 0 12 16.5" />
-      <path d="M12 4.5a2.5 2.5 0 0 1 4.96-.46 2.5 2.5 0 0 1 1.98 3 2.5 2.5 0 0 1-.32 4.27 2.5 2.5 0 0 1-1.98 3A2.5 2.5 0 0 1 12 16.5" />
-      <path d="M12 4.5v16" />
-      <path d="m8 8 4 4 4-4" />
-      <path d="m8 16 4-4 4 4" />
+      <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .963L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+      <path d="M20 3v4" /><path d="M22 5h-4" />
     </svg>
   ),
   UserCheck: () => (
@@ -268,20 +265,53 @@ function TransformationSlide() {
 
 // 3. Flow Slide – Animierter Prozess
 function PipelineSlide() {
+  const [hoveredNode, setHoveredNode] = useState(null)
+
   // Node positions as % – Linie, Punkt und Kreise nutzen ALLE diese Werte
   const nodes = [
     { id: 'upload', icon: 'UploadCloud', label: 'Upload', sub: 'Monster-PDF hochladen', pos: 10 },
-    { id: 'ai', icon: 'BrainCircuit', label: 'KI-Verarbeitung', sub: 'Splitting & Kategorisierung', pos: 36, isAI: true },
-    { id: 'hitl', icon: 'UserCheck', label: 'Kontrolle', sub: 'Prüfung bei Unsicherheit', pos: 63, badge: '~5% der Fälle' },
+    { id: 'ai', icon: 'BrainCircuit', label: 'Splitting & Kategorisierung', sub: 'Splitting & Kategorisierung', pos: 36, isAI: true },
+    { id: 'hitl', icon: 'UserCheck', label: 'Kontrolle', sub: 'Prüfung bei Unsicherheit', pos: 63 },
     { id: 'store', icon: 'FileStack', label: 'Strukturierte Ablage', sub: 'In Ordner ablegen', pos: 90, isEnd: true },
   ]
 
-  // Timing: wann pulsiert jeder Kreis? (fraction von 8s)
-  const pulseTimings = {
-    upload: { before: 0.07, peak: 0.10, after: 0.18 },
-    ai:     { before: 0.32, peak: 0.35, after: 0.45 },
-    hitl:   { before: 0.57, peak: 0.60, after: 0.70 },
-    store:  { before: 0.85, peak: 0.90, after: 0.97 },
+  const tooltipData = {
+    upload: {
+      title: 'Upload',
+      description: 'Laden Sie laufend E-Mails, PDFs und Scans hoch – alles wird zentral und sicher verarbeitet.',
+      features: [
+        'Zentrale Verarbeitung',
+        'Sichere Speicherung',
+        'Unterstützung für alle Formate',
+      ],
+    },
+    ai: {
+      title: 'Splitting & Kategorisierung',
+      description: 'Die KI erkennt Inhalte automatisch und schlägt Kategorien/Benennungen vor – mit Konfidenz-Wert für jede Entscheidung.',
+      features: [
+        'Automatische Erkennung',
+        'Konfidenz-Werte pro Entscheidung',
+        'Lernfähiges System',
+      ],
+    },
+    hitl: {
+      title: 'Kontrolle',
+      description: 'Dokumente mit hoher Konfidenz (Ihre definierte Schwelle) werden direkt übertragen – ohne Validierung. Bei niedriger Konfidenz validieren Sie kurz; das Tool lernt dazu.',
+      features: [
+        'Automatischer Transfer bei hoher Konfidenz',
+        'Manuelle Validierung bei Bedarf',
+        'Kontinuierliches Lernen',
+      ],
+    },
+    store: {
+      title: 'Strukturierte Ablage',
+      description: 'Alles landet sicher in ERP, Filesystem und DMS – inklusive Aktualisierungen. Maximale Automatisierung bei voller Kontrolle.',
+      features: [
+        'Automatische Synchronisation',
+        'ERP & DMS Integration',
+        'Vollständige Kontrolle',
+      ],
+    },
   }
 
   const defaultShadow = '0 6px 20px rgba(0,0,0,0.08)'
@@ -342,58 +372,103 @@ function PipelineSlide() {
         </div>
 
         <div className="flow-track">
-          {/* Gradient-Linie – reines CSS div, left/right = Kreispositionen */}
-          <motion.div
-            className="flow-line"
+          {/* SVG Linie mit Pfeilen zwischen den Nodes */}
+          <motion.svg
+            className="flow-line-svg"
+            viewBox="0 0 1000 30"
+            preserveAspectRatio="none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-          />
-
-          {/* Wandernder Punkt – gleiche %-Positionen wie Kreise */}
-          <motion.div
-            className="flow-dot"
-            animate={{
-              left: ['2%', '10%', '10%', '10%', '36%', '36%', '36%', '63%', '63%', '63%', '90%', '90%'],
-              opacity: [0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
-              scale: [0.5, 1, 0.3, 1, 1, 0.3, 1, 1, 0.3, 1, 1, 0.3],
-            }}
-            transition={{
-              duration: 8,
-              times: [0, 0.075, 0.125, 0.175, 0.325, 0.375, 0.45, 0.575, 0.625, 0.70, 0.85, 1.0],
-              repeat: Infinity,
-              repeatDelay: 2,
-            }}
-          />
+          >
+            <defs>
+              <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#c8d8ca" />
+                <stop offset="35%" stopColor="#88a38c" />
+                <stop offset="70%" stopColor="#123c36" />
+                <stop offset="100%" stopColor="#123c36" />
+              </linearGradient>
+              <linearGradient id="arrowGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#a8bfab" />
+                <stop offset="100%" stopColor="#88a38c" />
+              </linearGradient>
+              <linearGradient id="arrowGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#88a38c" />
+                <stop offset="100%" stopColor="#1a5148" />
+              </linearGradient>
+              <linearGradient id="arrowGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#1a5148" />
+                <stop offset="100%" stopColor="#123c36" />
+              </linearGradient>
+            </defs>
+            {/* Main line */}
+            <rect x="100" y="12" width="800" height="6" rx="3" fill="url(#lineGrad)" />
+            {/* Subtle glow track behind */}
+            <rect x="94" y="6" width="812" height="18" rx="9" fill="rgba(136,163,140,0.06)" />
+            {/* Arrow chevrons between nodes */}
+            {/* Arrow 1: between Upload (10%) and KI (36%) → midpoint ~23% = 230 */}
+            <path d="M 210,4 L 230,15 L 210,26" fill="none" stroke="url(#arrowGrad1)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M 240,4 L 260,15 L 240,26" fill="none" stroke="url(#arrowGrad1)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
+            {/* Arrow 2: between KI (36%) and Kontrolle (63%) → midpoint ~49.5% = 495 */}
+            <path d="M 475,4 L 495,15 L 475,26" fill="none" stroke="url(#arrowGrad2)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M 505,4 L 525,15 L 505,26" fill="none" stroke="url(#arrowGrad2)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
+            {/* Arrow 3: between Kontrolle (63%) and Ablage (90%) → midpoint ~76.5% = 765 */}
+            <path d="M 745,4 L 765,15 L 745,26" fill="none" stroke="url(#arrowGrad3)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M 775,4 L 795,15 L 775,26" fill="none" stroke="url(#arrowGrad3)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
+          </motion.svg>
 
           {/* Nodes – absolute positioniert mit left: X% */}
           {nodes.map((node, i) => {
             const NodeIcon = Icons[node.icon]
-            const pt = pulseTimings[node.id]
+            const tooltip = tooltipData[node.id]
+            const isHovered = hoveredNode === node.id
             return (
               <div
                 key={node.id}
                 className="flow-node"
                 style={{ left: `${node.pos}%` }}
+                onMouseEnter={() => setHoveredNode(node.id)}
+                onMouseLeave={() => setHoveredNode(null)}
               >
                 <motion.div
                   className={`node-circle node-step-${i}`}
                   animate={{
-                    scale: [1, 1, 1.15, 1, 1],
-                    boxShadow: [defaultShadow, defaultShadow, glowShadow, defaultShadow, defaultShadow],
+                    scale: isHovered ? 1.18 : 1,
+                    boxShadow: isHovered ? glowShadow : defaultShadow,
                   }}
-                  transition={{
-                    duration: 8,
-                    times: [0, pt.before, pt.peak, pt.after, 1],
-                    repeat: Infinity,
-                    repeatDelay: 2,
-                  }}
+                  transition={{ duration: 0.3 }}
                 >
                   <NodeIcon />
                 </motion.div>
-                {node.badge && <span className="node-badge">{node.badge}</span>}
                 <div className="node-label">{node.label}</div>
-                <div className="node-sub">{node.sub}</div>
+
+                <AnimatePresence>
+                  {isHovered && tooltip && (
+                    <motion.div
+                      className={`node-tooltip ${node.pos > 50 ? 'tooltip-left' : 'tooltip-right'}`}
+                      initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                      transition={{ duration: 0.25, ease: 'easeOut' }}
+                    >
+                      <div className="tooltip-header">
+                        <div className={`tooltip-icon-dot tooltip-dot-step-${i}`}>
+                          <NodeIcon />
+                        </div>
+                        <h4 className="tooltip-title">{tooltip.title}</h4>
+                      </div>
+                      <p className="tooltip-desc">{tooltip.description}</p>
+                      <ul className="tooltip-features">
+                        {tooltip.features.map((feat, fi) => (
+                          <li key={fi}>
+                            <Icons.CheckCircle />
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )
           })}
